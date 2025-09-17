@@ -1,5 +1,8 @@
 package br.com.fiap.herosheets.sistema;
 
+import br.com.fiap.herosheets.atributo.Atributo;
+import br.com.fiap.herosheets.habilidade.Habilidade;
+import br.com.fiap.herosheets.item.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,18 +29,19 @@ public class Sistema {
     @ElementCollection
     private List<String> classes;
 
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Atributo> atributos;
+
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> itens;
+
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Habilidade> habilidades;
+
     private int vidaMin;
     private int vidaMax;
     private int manaMin;
     private int manaMax;
 
-    @ElementCollection
-    private List<String> atributos;
-    @ElementCollection
-    private List<Integer> valoresIniciais; // valor inicial de cada atributo
-    @ElementCollection
-    private List<Integer> valoresMinimos;
-    @ElementCollection
-    private List<Integer> valoresMaximos;
 
 }

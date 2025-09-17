@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HeroSheets</title>
+</head>
+<body>
+
+<h1>HeroSheets</h1>
+
+<ul>
+    <li th:each="campanha : ${campanhas}" >
+        <span th:text="${campanha.name}"></span>
+        <span th:text="${campanha.sistema.nome}"></span>
+    </li>
+</ul>
+
+</body>
+</html>

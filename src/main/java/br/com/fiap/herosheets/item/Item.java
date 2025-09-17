@@ -20,7 +20,5 @@ public class Item {
     private String nome;
     private String descricao;
     private int poder;
-
-    @ManyToOne
-    private Sistema sistema;
+    private String sistema;
 }

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface HabilidadeRepository extends JpaRepository<Habilidade, Long> {
-    List<Habilidade> findBySistema(Sistema sistema);
+    List<Habilidade> findBySistema(String sistema);
 }

@@ -1,5 +1,6 @@
 package br.com.fiap.herosheets.habilidade;
 
+import br.com.fiap.herosheets.atributo.Atributo;
 import br.com.fiap.herosheets.sistema.Sistema;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,8 @@ public class HabilidadeService {
         this.habilidadeRepository = habilidadeRepository;
     }
 
-    public List<Habilidade> getHabilidadesPorSistema(Sistema sistema) {
+    public List<Habilidade> buscarPorSistema(String sistema) {
         return habilidadeRepository.findBySistema(sistema);
-    }
-
-    public void popularHabilidadesNoSistema(Sistema sistema, List<Habilidade> habilidades) {
-        habilidades.forEach(h -> h.setSistema(sistema));
-        habilidadeRepository.saveAll(habilidades);
     }
 
 }

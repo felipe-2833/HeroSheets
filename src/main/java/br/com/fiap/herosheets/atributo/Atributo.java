@@ -21,9 +21,6 @@ public class Atributo {
     private int valorAtual;
     private int valorMinimo;
     private int valorMaximo;
-
-    // Sistema ao qual pertence
-    @ManyToOne
-    private Sistema sistema;
+    private String sistema;
 
 }

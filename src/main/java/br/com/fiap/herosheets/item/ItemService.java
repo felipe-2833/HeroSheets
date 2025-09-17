@@ -1,5 +1,6 @@
 package br.com.fiap.herosheets.item;
 
+import br.com.fiap.herosheets.atributo.Atributo;
 import br.com.fiap.herosheets.sistema.Sistema;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,7 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<Item> getItensPorSistema(Sistema sistema) {
+    public List<Item> buscarPorSistema(String sistema) {
         return itemRepository.findBySistema(sistema);
-    }
-
-    public void popularItensNoSistema(Sistema sistema, List<Item> itens) {
-        itens.forEach(i -> i.setSistema(sistema));
-        itemRepository.saveAll(itens);
     }
 }

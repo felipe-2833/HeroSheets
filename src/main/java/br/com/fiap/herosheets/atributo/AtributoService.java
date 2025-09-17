@@ -14,12 +14,7 @@ public class AtributoService {
         this.atributoRepository = atributoRepository;
     }
 
-    public List<Atributo> getAtributosPorSistema(Sistema sistema) {
+    public List<Atributo> buscarPorSistema(String sistema) {
         return atributoRepository.findBySistema(sistema);
-    }
-
-    public void popularAtributosNoSistema(Sistema sistema, List<Atributo> atributos) {
-        atributos.forEach(a -> a.setSistema(sistema));
-        atributoRepository.saveAll(atributos);
     }
 }

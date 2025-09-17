@@ -21,7 +21,5 @@ public class Habilidade {
     private String nome;
     private String descricao;
     private int custo;
-
-    @ManyToOne
-    private Sistema sistema;
+    private String sistema;
 }

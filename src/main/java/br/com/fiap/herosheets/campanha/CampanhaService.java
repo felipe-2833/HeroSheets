@@ -7,6 +7,7 @@ import java.util.List;
 @Service
 public class CampanhaService {
 
+
     private final CampanhaRepository campanhaRepository;
 
     public CampanhaService(CampanhaRepository campanhaRepository) {
@@ -15,6 +16,10 @@ public class CampanhaService {
 
     public List<Campanha> getAllCampanhas(){
         return  campanhaRepository.findAll();
+    }
+
+    public Campanha save(Campanha campanha) {
+        return campanhaRepository.save(campanha);
     }
 
 }

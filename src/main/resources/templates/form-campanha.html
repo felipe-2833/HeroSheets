@@ -11,7 +11,7 @@
 
 <nav class="navbar bg-base-300 shadow-sm">
     <div class="flex-1">
-        <a class="btn btn-ghost text-xl">Hero Sheets</a>
+        <a class="btn btn-ghost text-xl">HeroSheets</a>
     </div>
     <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
@@ -45,7 +45,7 @@
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{qtdPlayers}"></legend>
             <input th:field="*{qtdPlayers}" id="qtdPlayer-range" type="range" min="0" max="10" value="4" class="range range-primary" />
-            <p id="score-label" class="label"  th:text="*{qtdPlayers + ' plys'}"></p>
+            <p id="qtdPlayer-label" class="label"  th:text="*{qtdPlayers + ' plys'}"></p>
         </fieldset>
 
         <fieldset class="fieldset">
@@ -58,16 +58,16 @@
         </fieldset>
 
         <div class="space-x-4">
-            <a href="/campanha" class="btn btn-neutral">Cancelar</a>
-            <button class="btn btn-primary">Salvar</button>
+            <a href="/campanha" class="btn btn-neutral"  th:text="#{cancel}"></a>
+            <button class="btn btn-primary"  th:text="#{save}"></button>
         </div>
 
     </form>
 </main>
 
 <script>
-    document.querySelector("#score-range").addEventListener("input", e => {
-        document.querySelector("#score-label").textContent = e.target.value + " pts"
+    document.querySelector("#qtdPlayer-range").addEventListener("input", e => {
+        document.querySelector("#qtdPlayer-label").textContent = e.target.value + " pts"
     })
 </script>
 

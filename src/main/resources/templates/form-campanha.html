@@ -19,8 +19,9 @@
                 <details>
                     <summary>🌎</summary>
                     <ul class="bg-base-100 rounded-t-none p-2">
-                        <li><a>🇧🇷</a></li>
-                        <li><a>🏴󠁧󠁢󠁥󠁮󠁧U+E007F</a></li>
+                        <li><a href="?lang=pt_BR">🇧🇷</a></li>
+                        <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                        <li><a href="/logout">Logout</a></li>
                     </ul>
                 </details>
             </li>
@@ -29,7 +30,7 @@
 </nav>
 
 <main class="grid place-items-center gap-4 p-8">
-    <form class="w-full max-w-md" method="post" th:object="${campanha}" th:action="${'/campanha/formcampanha'}">
+    <form class="w-full max-w-md" method="post" th:object="${campanha}" th:action="@{'/campanha/formcampanha'}">
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{name}"></legend>
             <input th:field="*{name}" th:errorclass="input-error" type="text" class="input" />
@@ -52,7 +53,7 @@
             <legend class="fieldset-legend" th:text="#{sistem}"></legend>
             <select th:field="*{sistema}" class="select select-primary" required>
                 <th:block th:each="sistema : ${sistemas}">
-                    <option th:value="${sistema.nome}" th:text="${sistema.nome}"></option>
+                    <option th:value="${sistema.id}" th:text="${sistema.nome}"></option>
                 </th:block>
             </select>
         </fieldset>

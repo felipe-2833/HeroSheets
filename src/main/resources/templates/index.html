@@ -9,6 +9,17 @@
 </head>
 <body>
 
+<script>
+    function toggleInput(button) {
+        const form = button.closest('form');
+        const input = form.querySelector('.input-rename');
+        const submit = form.querySelector('.submit-rename');
+
+        input.classList.toggle('hidden');    // mostra/esconde o input
+        submit.classList.toggle('hidden');   // mostra/esconde o botão salvar
+    }
+</script>
+
 <nav class="navbar bg-base-300 shadow-sm">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl">HeroSheets</a>
@@ -21,27 +32,11 @@
                     <ul class="bg-base-100 rounded-t-none p-2">
                         <li><a href="?lang=pt_BR">🇧🇷</a></li>
                         <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                        <li><a href="/logout">Logout</a></li>
                     </ul>
                 </details>
             </li>
         </ul>
-<!--        <div class="dropdown dropdown-end">-->
-<!--            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">-->
-<!--                <div class="w-10 rounded-full">-->
-<!--                    <img-->
-<!--                            alt="avatar do usuário"-->
-<!--                            th:src="${campanha.user.avatar_url}" />-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <ul-->
-<!--                    tabindex="0"-->
-<!--                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">-->
-<!--                <li>-->
-<!--                    <a class="justify-between" th:text="${user.attributes.email}"></a>-->
-<!--                </li>-->
-<!--                <li><a href="/logout">Logout</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 </nav>
 
@@ -63,7 +58,7 @@
         <div class="card-body items-center">
             <h2 th:text="${campanha.name}" class="card-title"></h2>
             <p th:text="${campanha.master}" ></p>
-            <p th:text="${campanha.qtdPlayers}" ></p>
+            <p th:text="${campanha.qtdPlayers } + ' ' + #{players}"></p>
 
         </div>
 
@@ -80,12 +75,15 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </button>
             </form>
-            <form th:if="${campanha.user == null}" method="post" th:action="${'/campanha/pick/' + campanha.id}">
+
+            <form method="post" th:action="@{'/campanha/rename/' + ${campanha.id}}" class="rename-form">
                 <input type="hidden" name="_method" value="PUT" />
-                <button class="btn btn-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hand-icon lucide-hand"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-                </button>
+                <button type="button" class="btn btn-warning" onclick="toggleInput(this)" th:text="#{rename}"></button>
+                <input type="text" name="novoNome" placeholder="Novo nome" class="hidden input-rename" required />
+                <button type="submit" class="btn btn-info hidden submit-rename" th:text="#{save}"></button>
             </form>
+
+
             <form th:if="${campanha.user != null}" method="post" th:action="${'/campanha/drop/' + campanha.id}">
                 <input type="hidden" name="_method" value="PUT" />
                 <button class="btn btn-warning">

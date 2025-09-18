@@ -11,8 +11,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User register(OAuth2User principal) {
-        var user = userRepository.findByEmail(principal.getAttributes().get("email").toString());
-        return user.orElseGet(() -> userRepository.save(new User(principal)));
-    }
+//    public User register(OAuth2User principal) {
+//        var user = userRepository.findByEmail(principal.getAttributes().get("email").toString());
+//        return user.orElseGet(() -> userRepository.save(new User(principal)));
+//    }
 }

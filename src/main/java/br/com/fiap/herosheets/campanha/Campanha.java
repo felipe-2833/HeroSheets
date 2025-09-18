@@ -29,7 +29,7 @@ public class Campanha {
     @NotBlank(message = "{campanha.master.notblank}")
     private String master;
 
-    @Min(value = 1, message = "{campanha.qtdPlayers.min}")
+    @Min(value = 0, message = "{campanha.qtdPlayers.min}")
     @Max(value = 100, message = "{campanha.qtdPlayers.max}")
     private int qtdPlayers;
 

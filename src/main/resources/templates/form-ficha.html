@@ -9,6 +9,43 @@
 </head>
 <body>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const itens = /*[[${campanha.sistema.itens}]]*/ [];
+    function addItem() {
+        const container = document.getElementById('inventario-container');
+        const index = container.children.length;
+
+        const div = document.createElement('div');
+        div.className = 'mb-2 flex gap-2';
+
+        const select = document.createElement('select');
+        select.name = `inventario[${index}].nome`;
+        select.className = 'select select-bordered w-full';
+
+        itens.forEach(i => {
+            const option = document.createElement('option');
+            option.value = i.id;
+            option.text = i.nome;
+            select.appendChild(option);
+        });
+
+        const inputPoder = document.createElement('input');
+        inputPoder.type = 'number';
+        inputPoder.name = `inventario[${index}].poder`;
+        inputPoder.min = '0';
+        inputPoder.max = '100';
+        inputPoder.placeholder = 'Poder';
+        inputPoder.className = 'input input-bordered w-24';
+
+        div.appendChild(select);
+        div.appendChild(inputPoder);
+        container.appendChild(div);
+    }
+    /*]]>*/
+</script>
+
+
 <nav class="navbar bg-base-300 shadow-sm">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl">HeroSheets</a>
@@ -19,8 +56,8 @@
                 <details>
                     <summary>🌎</summary>
                     <ul class="bg-base-100 rounded-t-none p-2">
-                        <li><a href="?lang=pt_BR">🇧🇷</a></li>
-                        <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                        <li><a th:href="@{/ficha/formficha(campanhaId=${param.campanhaId}, lang='pt_BR')}">🇧🇷</a></li>
+                        <li><a th:href="@{/ficha/formficha(campanhaId=${param.campanhaId}, lang='en_US')}">🏴</a></li>
                         <li><a href="/logout">Logout</a></li>
                     </ul>
                 </details>
@@ -44,12 +81,54 @@
                     <option th:value="${raca}" th:text="${raca}"></option>
                 </th:block>
             </select>
+
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{class}"></legend>
+            <select th:field="*{classe}" class="select select-primary" required>
+                <th:block th:each="classe : ${campanha.sistema.classes}">
+                    <option th:value="${classe}" th:text="${classe}"></option>
+                </th:block>
+            </select>
         </fieldset>
 
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{level}"></legend>
-            <input th:field="*{nivel}" id="qtdPlayer-range" type="range" min="1" max="100" value="1" class="range range-primary" />
-            <p id="qtdPlayer-label" class="label"  th:text="*{nivel + ' plys'}"></p>
+            <input th:field="*{nivel}" id="nivel-range" type="range" min="1" max="100" value="1" class="range range-primary" />
+            <p id="nivel-label" class="label"  th:text="*{nivel + ' lvl'}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{life}"></legend>
+            <input th:field="*{vida}" id="vida-range" type="range" th:min="${campanha.sistema.vidaMin}" th:max="${campanha.sistema.vidaMax}" th:value="${campanha.sistema.vidaMax}" class="range range-primary" />
+            <p id="vida-label" class="label"  th:text="*{vida + ' HP'}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{mana}"></legend>
+            <input th:field="*{mana}" id="mana-range" type="range" th:min="${campanha.sistema.manaMin}" th:max="${campanha.sistema.manaMax}" th:value="${campanha.sistema.manaMax}" class="range range-primary" />
+            <p id="mana-label" class="label"  th:text="*{mana + ' AP'}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{inventary}"></legend>
+
+            <div id="inventario-container">
+                <!-- Itera sobre os itens já adicionados na ficha -->
+                <div th:each="item, iterStat : *{inventario}" class="mb-2 flex gap-2">
+                    <select th:field="*{inventario[__${iterStat.index}__].idItem}" class="select select-bordered w-full">
+                        <option th:each="i : ${campanha.sistema.itens}"
+                                th:value="${i.id}"
+                                th:text="${i.nome}"
+                                th:selected="${i.id == item.idItem}">
+                        </option>
+                    </select>
+                    <input type="number" th:field="*{inventario[__${iterStat.index}__].poder}" min="0" max="100" placeholder="Poder" class="input input-bordered w-24"/>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary mt-2" onclick="addItem()">Adicionar Item</button>
         </fieldset>
 
         <div class="space-x-4">
@@ -61,8 +140,16 @@
 </main>
 
 <script>
-    document.querySelector("#qtdPlayer-range").addEventListener("input", e => {
-        document.querySelector("#qtdPlayer-label").textContent = e.target.value + " pts"
+    document.querySelector("#nivel-range").addEventListener("input", e => {
+        document.querySelector("#nivel-label").textContent = e.target.value + " lvl"
+    })
+
+    document.querySelector("#vida-range").addEventListener("input", e => {
+        document.querySelector("#vida-label").textContent = e.target.value + " HP"
+    })
+
+    document.querySelector("#mana-range").addEventListener("input", e => {
+        document.querySelector("#mana-label").textContent = e.target.value + " AP"
     })
 </script>
 

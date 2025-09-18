@@ -19,8 +19,8 @@
                 <details>
                     <summary>🌎</summary>
                     <ul class="bg-base-100 rounded-t-none p-2">
-                        <li><a href="?lang=pt_BR">🇧🇷</a></li>
-                        <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                        <li><a th:href="@{/ficha(campanhaId=${param.campanhaId}, lang='pt_BR')}">🇧🇷</a></li>
+                        <li><a th:href="@{/ficha(campanhaId=${param.campanhaId}, lang='en_US')}">🏴</a></li>
                         <li><a href="/logout">Logout</a></li>
                     </ul>
                 </details>
@@ -33,6 +33,8 @@
    th:href="@{/ficha/formficha(campanhaId=${campanhaSelecionada.id})}"
    class="btn btn-primary" th:text="#{sheet.new}">
 </a>
+<a href="/campanha" class="btn btn-neutral" th:text="#{cancel}"></a>
+
 <div th:if="${message}" role="alert" class="alert alert-success alert-soft m-4">
     <span th:text="${message}"></span>
 </div>

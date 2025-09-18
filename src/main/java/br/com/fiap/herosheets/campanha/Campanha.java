@@ -1,6 +1,7 @@
 package br.com.fiap.herosheets.campanha;
 
 import br.com.fiap.herosheets.sistema.Sistema;
+import br.com.fiap.herosheets.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -35,4 +36,7 @@ public class Campanha {
     @ManyToOne
     @NotNull(message = "{campanha.sistema.notnull}")
     private Sistema sistema;
+
+    @ManyToOne
+    private User user;
 }

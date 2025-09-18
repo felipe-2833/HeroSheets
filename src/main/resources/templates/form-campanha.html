@@ -29,7 +29,7 @@
 </nav>
 
 <main class="grid place-items-center gap-4 p-8">
-    <form class="w-full max-w-md" method="post" th:object="${campanha}">
+    <form class="w-full max-w-md" method="post" th:object="${campanha}" th:action="${'/campanha/formcampanha'}">
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{name}"></legend>
             <input th:field="*{name}" th:errorclass="input-error" type="text" class="input" />
@@ -39,7 +39,7 @@
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{master}"></legend>
             <input th:field="*{master}" th:errorclass="input-error" type="text" class="input" />
-            <p class="label text-error" th:errors="*{name}"></p>
+            <p class="label text-error" th:errors="*{master}"></p>
         </fieldset>
 
         <fieldset class="fieldset">

@@ -6,6 +6,8 @@ import br.com.fiap.herosheets.habilidade.Habilidade;
 import br.com.fiap.herosheets.item.Item;
 import br.com.fiap.herosheets.sistema.Sistema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +26,14 @@ public class Ficha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "{ficha.name.notblank}")
+    @NotBlank(message = "{sheet.name.notblank}")
     private String nome;
-
+    @NotBlank(message = "{sheet.raca.notblank}")
     private String raca;
+    @NotBlank(message = "{sheet.classe.notblank}")
     private String classe;
+    @Min(value = 1, message = "{sheet.nivel.min}")
+    @Max(value = 100, message = "{sheet.nivel.max}")
     private int nivel;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -40,44 +45,14 @@ public class Ficha {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Habilidade> habilidades;
 
+    @Min(value = 0, message = "{sheet.vida.min}")
+    @Max(value = 100, message = "{sheet.vida.max}")
     private int vida;
+    @Min(value = 0, message = "{sheet.mana.min}")
+    @Max(value = 100, message = "{sheet.mana.max}")
     private int mana;
 
     @ManyToOne
     private Campanha campanha;
-
-    public Ficha(String nome, String raca, String classe, int nivel,
-                 int vida, int mana, Campanha campanha) {
-
-        Sistema sistema = campanha.getSistema();
-
-        // validações automáticas
-        if (!sistema.getRacas().contains(raca)) {
-            throw new IllegalArgumentException("Raça inválida para este sistema!");
-        }
-        if (!sistema.getClasses().contains(classe)) {
-            throw new IllegalArgumentException("Classe inválida para este sistema!");
-        }
-        if (vida < sistema.getVidaMin() || vida > sistema.getVidaMax()) {
-            throw new IllegalArgumentException("Vida fora dos limites do sistema!");
-        }
-        if (mana < sistema.getManaMin() || mana > sistema.getManaMax()) {
-            throw new IllegalArgumentException("Mana fora dos limites do sistema!");
-        }
-
-        this.nome = nome;
-        this.raca = raca;
-        this.classe = classe;
-        this.nivel = nivel;
-        this.vida = vida;
-        this.mana = mana;
-        this.campanha = campanha;
-
-        // Inicializar listas vazias para atributos, itens e habilidades
-        this.atributos = List.copyOf(sistema.getAtributos());
-        this.inventario = List.copyOf(sistema.getItens());
-        this.habilidades = List.copyOf(sistema.getHabilidades());
-    }
-
 
 }

@@ -31,11 +31,6 @@ public class CampanhaService {
         campanhaRepository.delete(getCampanha(id));
     }
 
-    public void pick(Long id) {
-        var campanha = getCampanha(id);
-        campanhaRepository.save(campanha);
-    }
-
     public void drop(Long id) {
         var campanha = getCampanha(id);
         campanha.setUser(null);
@@ -62,7 +57,7 @@ public class CampanhaService {
         campanhaRepository.save(campanha);
     }
 
-    private Campanha getCampanha(Long id) {
+    public Campanha getCampanha(Long id) {
         return campanhaRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(messageHelper.get("campanha.notfound"))
         );

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Hero Sheets</title>
+</head>
+<body>
+
+<nav class="navbar bg-base-300 shadow-sm">
+    <div class="flex-1">
+        <a class="btn btn-ghost text-xl">HeroSheets</a>
+    </div>
+    <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <details>
+                    <summary>🌎</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2">
+                        <li><a href="?lang=pt_BR">🇧🇷</a></li>
+                        <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="grid place-items-center gap-4 p-8">
+    <form class="w-full max-w-md" method="post" th:object="${ficha}" th:action="@{'/ficha/formficha'}">
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{name}"></legend>
+            <input th:field="*{nome}" th:errorclass="input-error" type="text" class="input" />
+            <p class="label text-error" th:errors="*{nome}" ></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{race}"></legend>
+            <select th:field="*{raca}" class="select select-primary" required>
+                <th:block th:each="raca : ${campanha.sistema.racas}">
+                    <option th:value="${raca}" th:text="${raca}"></option>
+                </th:block>
+            </select>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{level}"></legend>
+            <input th:field="*{nivel}" id="qtdPlayer-range" type="range" min="1" max="100" value="1" class="range range-primary" />
+            <p id="qtdPlayer-label" class="label"  th:text="*{nivel + ' plys'}"></p>
+        </fieldset>
+
+        <div class="space-x-4">
+            <a th:href="@{/ficha(campanhaId=${campanha.id})}" class="btn btn-neutral" th:text="#{cancel}"></a>
+            <button class="btn btn-primary"  th:text="#{save}"></button>
+        </div>
+
+    </form>
+</main>
+
+<script>
+    document.querySelector("#qtdPlayer-range").addEventListener("input", e => {
+        document.querySelector("#qtdPlayer-label").textContent = e.target.value + " pts"
+    })
+</script>
+
+</body>
+</html>

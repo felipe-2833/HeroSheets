@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dracula">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <meta charset="UTF-8">
     <title>HeroSheets</title>
 </head>
 <body>
 
-<h1>HeroSheets</h1>
+<h1 class="text-2xl font-bold text-primary p-8">Hero Sheets</h1>
 
-<ul>
-    <li th:each="campanha : ${campanhas}" >
-        <span th:text="${campanha.name}"></span>
-        <span th:text="${campanha.sistema.nome}"></span>
-    </li>
-</ul>
+<a href="/campanha/formcampanha" class="btn btn-primary">Nova Campanha</a>
+
+<div th:if="${message}" role="alert" class="alert alert-success alert-soft m-4">
+    <span th:text="${message}"></span>
+</div>
+
+<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 p-8">
+    <div th:each="campanha : ${campanhas}" class="card card-border bg-base-300 w-96">
+        <div th:text="${campanha.sistema.nome}" class="badge badge-accent m-4"></div>
+
+        <div class="card-body items-center">
+            <h2 th:text="${campanha.name}" class="card-title"></h2>
+            <p th:text="${campanha.master}" ></p>
+            <p th:text="${campanha.qtdPlayers}" ></p>
+
+        </div>
+
+        <div class="card-actions justify-end m-4">
+            <button class="btn btn-primary">apagar</button>
+        </div>
+    </div>
+</main>
 
 </body>
 </html>

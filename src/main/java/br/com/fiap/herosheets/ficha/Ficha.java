@@ -6,6 +6,7 @@ import br.com.fiap.herosheets.habilidade.Habilidade;
 import br.com.fiap.herosheets.item.Item;
 import br.com.fiap.herosheets.sistema.Sistema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,9 @@ public class Ficha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "{ficha.name.notblank}")
     private String nome;
+
     private String raca;
     private String classe;
     private int nivel;

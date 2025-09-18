@@ -8,4 +8,5 @@ import java.util.List;
 public interface AtributoRepository extends JpaRepository<Atributo, Long> {
 
     List<Atributo> findBySistema(String sistema);
+
 }

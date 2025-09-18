@@ -1,5 +1,6 @@
 package br.com.fiap.herosheets.habilidade;
 
+import br.com.fiap.herosheets.atributo.Atributo;
 import br.com.fiap.herosheets.sistema.Sistema;
 import org.springframework.data.jpa.repository.JpaRepository;
 

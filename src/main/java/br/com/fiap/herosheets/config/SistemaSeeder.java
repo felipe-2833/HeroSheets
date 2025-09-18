@@ -2,21 +2,16 @@ package br.com.fiap.herosheets.config;
 
 import br.com.fiap.herosheets.atributo.Atributo;
 import br.com.fiap.herosheets.atributo.AtributoRepository;
-import br.com.fiap.herosheets.atributo.AtributoService;
 import br.com.fiap.herosheets.habilidade.Habilidade;
 import br.com.fiap.herosheets.habilidade.HabilidadeRepository;
-import br.com.fiap.herosheets.habilidade.HabilidadeService;
 import br.com.fiap.herosheets.item.Item;
 import br.com.fiap.herosheets.item.ItemRepository;
-import br.com.fiap.herosheets.item.ItemService;
 import br.com.fiap.herosheets.sistema.Sistema;
 import br.com.fiap.herosheets.sistema.SistemaRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -34,17 +29,12 @@ public class SistemaSeeder {
     @Autowired
     private HabilidadeRepository habilidadeRepository;
 
-    @Autowired
-    private AtributoService atributoService;
-
-    @Autowired
-    private ItemService itemService;
-
-    @Autowired
-    private HabilidadeService habilidadeService;
-
     @PostConstruct
     public void init() {
+        if (sistemaRepository.count() > 0) {
+            return;
+        }
+
         var atributos = List.of(
                 Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
                 Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
@@ -106,46 +96,51 @@ public class SistemaSeeder {
         );
         habilidadeRepository.saveAll(habilidades);
 
-        List<Atributo> atriDnd = atributoService.buscarPorSistema("dnd");
-        List<Item> itenDnd = itemService.buscarPorSistema("dnd");
-        List<Habilidade> habDnd = habilidadeService.buscarPorSistema("dnd");
-        List<Atributo> atriTor = atributoService.buscarPorSistema("tormenta");
-        List<Item> itenTor = itemService.buscarPorSistema("tormenta");
-        List<Habilidade> habTor = habilidadeService.buscarPorSistema("tormenta");
-        List<Atributo> atriCthu = atributoService.buscarPorSistema("cthulhu");
-        List<Item> itenCthu = itemService.buscarPorSistema("cthulhu");
-        List<Habilidade> habCthu = habilidadeService.buscarPorSistema("cthulhu");
-        List<Atributo> atriOrd = atributoService.buscarPorSistema("ordem");
-        List<Item> itenOrd = itemService.buscarPorSistema("ordem");
-        List<Habilidade> habOrd = habilidadeService.buscarPorSistema("ordem");
-
-        var sistemas = List.of(
-                Sistema.builder().nome("dnd")
+                Sistema dnd = Sistema.builder().nome("dnd")
                         .racas(List.of("Humano", "Elfo", "Anão", "Halfling"))
                         .classes(List.of("Guerreiro", "Mago", "Ladino", "Clérigo"))
-                        .atributos(atriDnd).itens(itenDnd).habilidades(habDnd)
                         .vidaMin(5).vidaMax(100).manaMin(0).manaMax(50)
-                        .build(),
-                Sistema.builder().nome("tormenta")
+                        .build();
+
+                Sistema tormenta = Sistema.builder().nome("tormenta")
                         .racas(List.of("Humano", "Elfo", "Anão", "Orc"))
                         .classes(List.of("Guerreiro", "Mago", "Paladino", "Clérigo"))
-                        .atributos(atriTor).itens(itenTor).habilidades(habTor)
                         .vidaMin(10).vidaMax(120).manaMin(0).manaMax(80)
-                        .build(),
-                Sistema.builder().nome("cthulhu")
+                        .build();
+
+                Sistema cthulhu = Sistema.builder().nome("cthulhu")
                         .racas(List.of("Humano"))
                         .classes(List.of("Investigador", "Acadêmico", "Detetive"))
-                        .atributos(atriCthu).itens(itenCthu).habilidades(habCthu)
                         .vidaMin(5).vidaMax(30).manaMin(0).manaMax(10)
-                        .build(),
-                Sistema.builder().nome("ordem")
+                        .build();
+
+                Sistema ordem = Sistema.builder().nome("ordem")
                         .racas(List.of("Humano", "Psíquico"))
                         .classes(List.of("Místico", "Caçador", "Guarda"))
-                        .atributos(atriOrd).itens(itenOrd).habilidades(habOrd)
                         .vidaMin(10).vidaMax(70).manaMin(0).manaMax(40)
-                        .build()
-        );
-        sistemaRepository.saveAll(sistemas);
+                        .build();
+
+        sistemaRepository.saveAll(List.of(dnd, tormenta, cthulhu, ordem));
+
+        dnd.setAtributos(atributoRepository.findBySistema("dnd"));
+        dnd.setItens(itemRepository.findBySistema("dnd"));
+        dnd.setHabilidades(habilidadeRepository.findBySistema("dnd"));
+        sistemaRepository.save(dnd);
+
+        tormenta.setAtributos(atributoRepository.findBySistema("tormenta"));
+        tormenta.setItens(itemRepository.findBySistema("tormenta"));
+        tormenta.setHabilidades(habilidadeRepository.findBySistema("tormenta"));
+        sistemaRepository.save(tormenta);
+
+        cthulhu.setAtributos(atributoRepository.findBySistema("cthulhu"));
+        cthulhu.setItens(itemRepository.findBySistema("cthulhu"));
+        cthulhu.setHabilidades(habilidadeRepository.findBySistema("cthulhu"));
+        sistemaRepository.save(cthulhu);
+
+        ordem.setAtributos(atributoRepository.findBySistema("ordem"));
+        ordem.setItens(itemRepository.findBySistema("ordem"));
+        ordem.setHabilidades(habilidadeRepository.findBySistema("ordem"));
+        sistemaRepository.save(ordem);
 
     }
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Hero Sheets</title>
+</head>
+<body>
+
+<nav class="navbar bg-base-300 shadow-sm">
+    <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Hero Sheets</a>
+    </div>
+    <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <details>
+                    <summary>🌎</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2">
+                        <li><a>🇧🇷</a></li>
+                        <li><a>🏴󠁧󠁢󠁥󠁮󠁧U+E007F</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="grid place-items-center gap-4 p-8">
+    <form class="w-full max-w-md" method="post" th:object="${campanha}">
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{name}"></legend>
+            <input th:field="*{name}" th:errorclass="input-error" type="text" class="input" />
+            <p class="label text-error" th:errors="*{name}" ></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{master}"></legend>
+            <input th:field="*{master}" th:errorclass="input-error" type="text" class="input" />
+            <p class="label text-error" th:errors="*{name}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{qtdPlayers}"></legend>
+            <input th:field="*{qtdPlayers}" id="qtdPlayer-range" type="range" min="0" max="10" value="4" class="range range-primary" />
+            <p id="score-label" class="label"  th:text="*{qtdPlayers + ' plys'}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{sistem}"></legend>
+            <select th:field="*{sistema}" class="select select-primary" required>
+                <th:block th:each="sistema : ${sistemas}">
+                    <option th:value="${sistema.nome}" th:text="${sistema.nome}"></option>
+                </th:block>
+            </select>
+        </fieldset>
+
+        <div class="space-x-4">
+            <a href="/campanha" class="btn btn-neutral">Cancelar</a>
+            <button class="btn btn-primary">Salvar</button>
+        </div>
+
+    </form>
+</main>
+
+<script>
+    document.querySelector("#score-range").addEventListener("input", e => {
+        document.querySelector("#score-label").textContent = e.target.value + " pts"
+    })
+</script>
+
+</body>
+</html>

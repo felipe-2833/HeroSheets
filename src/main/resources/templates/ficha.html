@@ -39,23 +39,119 @@
     <span th:text="${message}"></span>
 </div>
 
-<!--<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 p-8">-->
-<!--    <div th:each="ficha : ${fichas}" class="card card-border bg-base-300 w-96 relative">-->
-<!--        <div th:if="${ficha.user}" class="avatar absolute top-4 right-4">-->
-<!--            <div class="w-12 rounded-full">-->
-<!--                <img th:src="${campanha.user.avatarUrl}" th:title="${campanha.user.name}" />-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div th:text="${ficha.campanha.nome}" class="badge badge-accent m-4"></div>-->
+<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 p-8">
+    <div th:each="ficha : ${fichas}" class="card card-border bg-base-300 w-96 relative">
+        <div th:text="${ficha.campanha.name}" class="badge badge-accent m-4"></div>
 
-<!--        <div class="card-body items-center">-->
-<!--            <h2 th:text="${campanha.name}" class="card-title"></h2>-->
-<!--            <p th:text="${campanha.master}" ></p>-->
-<!--            <p th:text="${campanha.qtdPlayers } + ' ' + #{players}"></p>-->
+        <div class="card-body items-center">
+            <h2 th:text="${ficha.nome}" class="card-title"></h2>
+            <p th:text="${ficha.raca}" ></p>
+            <p th:text="${ficha.classe}" ></p>
+            <div class="flex items-center gap-2">
+                <span>Nível</span>
+                <form method="post" th:action="@{'/ficha/dec/nivel/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">-</button>
+                </form>
+                <input type="number" th:value="${ficha.nivel}" class="w-16 text-center" readonly />
+                <form method="post" th:action="@{'/ficha/inc/nivel/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">+</button>
+                </form>
+            </div>
+            <div class="flex items-center gap-2">
+                <span>Vida</span>
+                <form method="post" th:action="@{'/ficha/dec/vida/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">-</button>
+                </form>
+                <input type="number" th:value="${ficha.vida}" class="w-16 text-center" readonly />
+                <form method="post" th:action="@{'/ficha/inc/vida/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">+</button>
+                </form>
+            </div>
+            <div class="flex items-center gap-2">
+                <span>Mana</span>
+                <form method="post" th:action="@{'/ficha/dec/mana/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">-</button>
+                </form>
+                <input type="number" th:value="${ficha.mana}" class="w-16 text-center" readonly />
+                <form method="post" th:action="@{'/ficha/inc/mana/' + ${ficha.id}}">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                    <button type="submit" class="btn btn-sm">+</button>
+                </form>
+            </div>
+            <p th:text="#{inventory} + ':'"></p>
+            <th:block th:each="item : ${ficha.inventario}">
+                <p th:text="${item.nome}" ></p>
+            </th:block>
+            <p th:text="#{skills} + ':'"></p>
+            <th:block th:each="habilidade : ${ficha.habilidades}">
+                <p th:text="${habilidade.nome}" ></p>
+            </th:block>
+            <p th:text="#{attributes} + ':'"></p>
+            <th:block th:each="atributo : ${ficha.atributos}">
+                <div class="flex items-center gap-2">
+                    <span th:text="${atributo.nome}"></span>
+                    <form method="post" th:action="@{'/ficha/dec/atributo/' + ${ficha.id} + '/' + ${atributo.id}}" style="display:inline;">
+                        <input type="hidden" name="_method" value="PUT" />
+                        <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                        <button type="submit" class="btn btn-sm">-</button>
+                    </form>
+                    <input type="number" th:value="${atributo.valorAtual}" class="w-16 text-center" readonly />
+                    <form method="post" th:action="@{'/ficha/inc/atributo/' + ${ficha.id} + '/' + ${atributo.id}}" style="display:inline;">
+                        <input type="hidden" name="_method" value="PUT" />
+                        <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                        <button type="submit" class="btn btn-sm">+</button>
+                    </form>
+                </div>
+            </th:block>
 
-<!--        </div>-->
-<!--    </div>-->
-<!--</main>-->
+
+            <form method="post" th:action="@{'/ficha/rename/' + ${ficha.id}}" class="rename-form">
+                <input type="hidden" name="_method" value="PUT" />
+                <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+
+                <button type="button" class="btn btn-warning" onclick="toggleInput(this)" th:text="#{rename}"></button>
+                <input type="text" name="novoNome" placeholder="Novo nome" class="hidden input-rename" required />
+                <button type="submit" class="btn btn-info hidden submit-rename" th:text="#{save}"></button>
+            </form>
+
+
+            <form method="post" th:action="@{'/ficha/' + ${ficha.id}}">
+                <input type="hidden" name="_method" value="DELETE" />
+                <input type="hidden" name="campanhaId" th:value="${ficha.campanha.id}" />
+                <button class="btn btn-primary" th:text="#{delete}"></button>
+            </form>
+
+        </div>
+    </div>
+</main>
+<script>
+    function toggleInput(btn) {
+        const form = btn.closest('form');
+        const input = form.querySelector('.input-rename');
+        const submit = form.querySelector('.submit-rename');
+
+        input.classList.toggle('hidden');
+        submit.classList.toggle('hidden');
+
+        if (!input.classList.contains('hidden')) {
+            input.focus();
+        } else {
+            input.value = '';
+        }
+    }
+
+</script>
 
 </body>
 </html>

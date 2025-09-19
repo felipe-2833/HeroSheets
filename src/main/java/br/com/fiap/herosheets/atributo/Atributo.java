@@ -1,5 +1,6 @@
 package br.com.fiap.herosheets.atributo;
 
+import br.com.fiap.herosheets.ficha.Ficha;
 import br.com.fiap.herosheets.sistema.Sistema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,9 @@ public class Atributo {
     private int valorMinimo;
     private int valorMaximo;
     private String sistema;
+
+    @ManyToOne
+    @JoinColumn(name = "ficha_id")
+    private Ficha ficha;
 
 }

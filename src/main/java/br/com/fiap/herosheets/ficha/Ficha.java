@@ -36,20 +36,35 @@ public class Ficha {
     @Max(value = 100, message = "{sheet.nivel.max}")
     private int nivel;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ficha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atributo> atributos;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @Transient
+    private List<Long> atributoIds;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ficha_inventario",
+            joinColumns = @JoinColumn(name = "ficha_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<Item> inventario;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @Transient
+    private List<Long> inventarioIds;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ficha_habilidades",
+            joinColumns = @JoinColumn(name = "ficha_id"),
+            inverseJoinColumns = @JoinColumn(name = "habilidade_id")
+    )
     private List<Habilidade> habilidades;
 
-    @Min(value = 0, message = "{sheet.vida.min}")
-    @Max(value = 100, message = "{sheet.vida.max}")
+    @Transient
+    private List<Long> habilidadeIds;
+
     private int vida;
-    @Min(value = 0, message = "{sheet.mana.min}")
-    @Max(value = 100, message = "{sheet.mana.max}")
     private int mana;
 
     @ManyToOne

@@ -58,7 +58,8 @@
 
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{level}"></legend>
-            <input th:field="*{nivel}" th:errorclass="input-error" th:value="1" type="text" class="input" readonly disabled />
+            <input type="hidden" th:field="*{nivel}" />
+            <input th:value="1" type="text" class="input" disabled />
         </fieldset>
 
         <fieldset class="fieldset">
@@ -72,6 +73,59 @@
             <input th:field="*{mana}" id="mana-range" type="range" th:min="${campanha.sistema.manaMin}" th:max="${campanha.sistema.manaMax}" th:value="${campanha.sistema.manaMax}" class="range range-primary" />
             <p id="mana-label" class="label"  th:text="*{mana + ' AP'}"></p>
         </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{inventory}"></legend>
+            <div class="grid grid-cols-2 gap-2">
+                <th:block th:each="item : ${campanha.sistema.itens}">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" th:field="*{inventarioIds}" th:value="${item.id}" class="checkbox checkbox-primary">
+                        <span th:text="${item.nome}"></span>
+                    </label>
+                </th:block>
+            </div>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{skills}"></legend>
+            <div class="grid grid-cols-2 gap-2">
+                <th:block th:each="habilidade : ${campanha.sistema.habilidades}">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" th:field="*{habilidadeIds}" th:value="${habilidade.id}" class="checkbox checkbox-primary">
+                        <span th:text="${habilidade.nome}"></span>
+                    </label>
+                </th:block>
+            </div>
+        </fieldset>
+
+        <input type="hidden" name="campanhaId" th:value="${campanha.id}" />
+
+        <div class="grid gap-4">
+            <th:block th:each="atributo, iterStat : ${ficha.atributos}">
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend" th:text="${atributo.nome}">Força</legend>
+
+                    <!-- Hidden fields obrigatórios -->
+                    <input type="hidden" th:field="*{atributos[__${iterStat.index}__].nome}" />
+                    <input type="hidden" th:field="*{atributos[__${iterStat.index}__].valorMinimo}" />
+                    <input type="hidden" th:field="*{atributos[__${iterStat.index}__].valorMaximo}" />
+                    <input type="hidden" th:if="${atributo.id != null}" th:field="*{atributos[__${iterStat.index}__].id}" />
+
+                    <!-- Slider -->
+                    <input
+                            th:field="*{atributos[__${iterStat.index}__].valorAtual}"
+                            type="range"
+                            th:min="${atributo.valorMinimo}"
+                            th:max="${atributo.valorMaximo}"
+                            th:id="'attr-range-' + ${iterStat.index}"
+                            class="range range-primary"
+                    />
+
+                    <!-- Label mostrando valor atual -->
+                    <p th:id="'attr-label-' + ${iterStat.index}" class="label" th:text="${atributo.valorAtual}">0</p>
+                </fieldset>
+            </th:block>
+        </div>
 
         <div class="space-x-4">
             <a th:href="@{/ficha(campanhaId=${campanha.id})}" class="btn btn-neutral" th:text="#{cancel}"></a>
@@ -90,6 +144,15 @@
     document.querySelector("#mana-range").addEventListener("input", e => {
         document.querySelector("#mana-label").textContent = e.target.value + " AP"
     })
+
+    document.querySelectorAll('input[id^="attr-range-"]').forEach(function(range) {
+        const labelId = range.id.replace('range', 'label');
+        const label = document.getElementById(labelId);
+        if (label) label.textContent = range.value
+        range.addEventListener('input', function() {
+            if (label) label.textContent = this.value;
+        });
+    });
 </script>
 
 </body>

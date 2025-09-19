@@ -36,26 +36,26 @@ public class SistemaSeeder {
         }
 
         var atributos = List.of(
-                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
-                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
-                Atributo.builder().nome("Constituição").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
-                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
-                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").build(),
-                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").build(),
-                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").build(),
-                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").build(),
-                Atributo.builder().nome("Vigor").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").build(),
-                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").build(),
-                Atributo.builder().nome("Força").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").build(),
-                Atributo.builder().nome("Destreza").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").build(),
-                Atributo.builder().nome("Inteligência").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").build(),
-                Atributo.builder().nome("Sanidade").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").build(),
-                Atributo.builder().nome("Carisma").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").build(),
-                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").build(),
-                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").build(),
-                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").build(),
-                Atributo.builder().nome("Energia").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").build(),
-                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").build()
+                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").ficha(null).build(),
+                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").ficha(null).build(),
+                Atributo.builder().nome("Constituição").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").ficha(null).build(),
+                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").ficha(null).build(),
+                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("dnd").ficha(null).build(),
+                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").ficha(null).build(),
+                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").ficha(null).build(),
+                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").ficha(null).build(),
+                Atributo.builder().nome("Vigor").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").ficha(null).build(),
+                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(20).sistema("tormenta").ficha(null).build(),
+                Atributo.builder().nome("Força").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").ficha(null).build(),
+                Atributo.builder().nome("Destreza").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").ficha(null).build(),
+                Atributo.builder().nome("Inteligência").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").ficha(null).build(),
+                Atributo.builder().nome("Sanidade").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").ficha(null).build(),
+                Atributo.builder().nome("Carisma").valorAtual(5).valorMinimo(1).valorMaximo(10).sistema("cthulhu").ficha(null).build(),
+                Atributo.builder().nome("Força").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").ficha(null).build(),
+                Atributo.builder().nome("Destreza").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").ficha(null).build(),
+                Atributo.builder().nome("Inteligência").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").ficha(null).build(),
+                Atributo.builder().nome("Energia").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").ficha(null).build(),
+                Atributo.builder().nome("Carisma").valorAtual(10).valorMinimo(1).valorMaximo(15).sistema("ordem").ficha(null).build()
         );
         atributoRepository.saveAll(atributos);
 

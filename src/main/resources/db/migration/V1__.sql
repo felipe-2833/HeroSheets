@@ -6,6 +6,7 @@ CREATE TABLE atributo
     valor_minimo INTEGER                                 NOT NULL,
     valor_maximo INTEGER                                 NOT NULL,
     sistema      VARCHAR(255),
+    ficha_id     BIGINT,
     CONSTRAINT pk_atributo PRIMARY KEY (id)
 );
 
@@ -33,22 +34,16 @@ CREATE TABLE ficha
     CONSTRAINT pk_ficha PRIMARY KEY (id)
 );
 
-CREATE TABLE ficha_atributos
-(
-    ficha_id     BIGINT NOT NULL,
-    atributos_id BIGINT NOT NULL
-);
-
 CREATE TABLE ficha_habilidades
 (
-    ficha_id       BIGINT NOT NULL,
-    habilidades_id BIGINT NOT NULL
+    ficha_id      BIGINT NOT NULL,
+    habilidade_id BIGINT NOT NULL
 );
 
 CREATE TABLE ficha_inventario
 (
-    ficha_id      BIGINT NOT NULL,
-    inventario_id BIGINT NOT NULL
+    ficha_id BIGINT NOT NULL,
+    item_id  BIGINT NOT NULL
 );
 
 CREATE TABLE habilidade
@@ -103,17 +98,11 @@ CREATE TABLE sistema_racas
     racas      VARCHAR(255)
 );
 
-ALTER TABLE ficha_atributos
-    ADD CONSTRAINT uc_ficha_atributos_atributos UNIQUE (atributos_id);
-
-ALTER TABLE ficha_habilidades
-    ADD CONSTRAINT uc_ficha_habilidades_habilidades UNIQUE (habilidades_id);
-
-ALTER TABLE ficha_inventario
-    ADD CONSTRAINT uc_ficha_inventario_inventario UNIQUE (inventario_id);
-
 ALTER TABLE herouser
     ADD CONSTRAINT uc_herouser_email UNIQUE (email);
+
+ALTER TABLE atributo
+    ADD CONSTRAINT FK_ATRIBUTO_ON_FICHA FOREIGN KEY (ficha_id) REFERENCES ficha (id);
 
 ALTER TABLE campanha
     ADD CONSTRAINT FK_CAMPANHA_ON_SISTEMA FOREIGN KEY (sistema_id) REFERENCES sistema (id);
@@ -124,23 +113,17 @@ ALTER TABLE campanha
 ALTER TABLE ficha
     ADD CONSTRAINT FK_FICHA_ON_CAMPANHA FOREIGN KEY (campanha_id) REFERENCES campanha (id);
 
-ALTER TABLE ficha_atributos
-    ADD CONSTRAINT fk_ficatr_on_atributo FOREIGN KEY (atributos_id) REFERENCES atributo (id);
-
-ALTER TABLE ficha_atributos
-    ADD CONSTRAINT fk_ficatr_on_ficha FOREIGN KEY (ficha_id) REFERENCES ficha (id);
-
 ALTER TABLE ficha_habilidades
     ADD CONSTRAINT fk_fichab_on_ficha FOREIGN KEY (ficha_id) REFERENCES ficha (id);
 
 ALTER TABLE ficha_habilidades
-    ADD CONSTRAINT fk_fichab_on_habilidade FOREIGN KEY (habilidades_id) REFERENCES habilidade (id);
+    ADD CONSTRAINT fk_fichab_on_habilidade FOREIGN KEY (habilidade_id) REFERENCES habilidade (id);
 
 ALTER TABLE ficha_inventario
     ADD CONSTRAINT fk_ficinv_on_ficha FOREIGN KEY (ficha_id) REFERENCES ficha (id);
 
 ALTER TABLE ficha_inventario
-    ADD CONSTRAINT fk_ficinv_on_item FOREIGN KEY (inventario_id) REFERENCES item (id);
+    ADD CONSTRAINT fk_ficinv_on_item FOREIGN KEY (item_id) REFERENCES item (id);
 
 ALTER TABLE sistema_classes
     ADD CONSTRAINT fk_sistema_classes_on_sistema FOREIGN KEY (sistema_id) REFERENCES sistema (id);

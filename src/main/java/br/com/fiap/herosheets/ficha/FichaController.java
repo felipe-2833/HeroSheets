@@ -57,7 +57,10 @@ public class FichaController {
         Sistema sistema = campanha.getSistema();
         model.addAttribute("sistema", sistema);
 
-        model.addAttribute("ficha", new Ficha());
+        Ficha ficha = new Ficha();
+        ficha.setNivel(1);
+        model.addAttribute("ficha", ficha);
+
         return "form-ficha";
     }
 

@@ -9,43 +9,6 @@
 </head>
 <body>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    const itens = /*[[${campanha.sistema.itens}]]*/ [];
-    function addItem() {
-        const container = document.getElementById('inventario-container');
-        const index = container.children.length;
-
-        const div = document.createElement('div');
-        div.className = 'mb-2 flex gap-2';
-
-        const select = document.createElement('select');
-        select.name = `inventario[${index}].nome`;
-        select.className = 'select select-bordered w-full';
-
-        itens.forEach(i => {
-            const option = document.createElement('option');
-            option.value = i.id;
-            option.text = i.nome;
-            select.appendChild(option);
-        });
-
-        const inputPoder = document.createElement('input');
-        inputPoder.type = 'number';
-        inputPoder.name = `inventario[${index}].poder`;
-        inputPoder.min = '0';
-        inputPoder.max = '100';
-        inputPoder.placeholder = 'Poder';
-        inputPoder.className = 'input input-bordered w-24';
-
-        div.appendChild(select);
-        div.appendChild(inputPoder);
-        container.appendChild(div);
-    }
-    /*]]>*/
-</script>
-
-
 <nav class="navbar bg-base-300 shadow-sm">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl">HeroSheets</a>
@@ -95,8 +58,7 @@
 
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{level}"></legend>
-            <input th:field="*{nivel}" id="nivel-range" type="range" min="1" max="100" value="1" class="range range-primary" />
-            <p id="nivel-label" class="label"  th:text="*{nivel + ' lvl'}"></p>
+            <input th:field="*{nivel}" th:errorclass="input-error" th:value="1" type="text" class="input" readonly disabled />
         </fieldset>
 
         <fieldset class="fieldset">
@@ -111,26 +73,6 @@
             <p id="mana-label" class="label"  th:text="*{mana + ' AP'}"></p>
         </fieldset>
 
-        <fieldset class="fieldset">
-            <legend class="fieldset-legend" th:text="#{inventary}"></legend>
-
-            <div id="inventario-container">
-                <!-- Itera sobre os itens já adicionados na ficha -->
-                <div th:each="item, iterStat : *{inventario}" class="mb-2 flex gap-2">
-                    <select th:field="*{inventario[__${iterStat.index}__].idItem}" class="select select-bordered w-full">
-                        <option th:each="i : ${campanha.sistema.itens}"
-                                th:value="${i.id}"
-                                th:text="${i.nome}"
-                                th:selected="${i.id == item.idItem}">
-                        </option>
-                    </select>
-                    <input type="number" th:field="*{inventario[__${iterStat.index}__].poder}" min="0" max="100" placeholder="Poder" class="input input-bordered w-24"/>
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-secondary mt-2" onclick="addItem()">Adicionar Item</button>
-        </fieldset>
-
         <div class="space-x-4">
             <a th:href="@{/ficha(campanhaId=${campanha.id})}" class="btn btn-neutral" th:text="#{cancel}"></a>
             <button class="btn btn-primary"  th:text="#{save}"></button>
@@ -140,9 +82,6 @@
 </main>
 
 <script>
-    document.querySelector("#nivel-range").addEventListener("input", e => {
-        document.querySelector("#nivel-label").textContent = e.target.value + " lvl"
-    })
 
     document.querySelector("#vida-range").addEventListener("input", e => {
         document.querySelector("#vida-label").textContent = e.target.value + " HP"

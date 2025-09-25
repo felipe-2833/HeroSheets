@@ -31,26 +31,32 @@ public class CampanhaService {
         campanhaRepository.delete(getCampanha(id));
     }
 
-    public void drop(Long id) {
+    public void drop(Long id, User user) {
         var campanha = getCampanha(id);
         campanha.setUser(null);
         campanhaRepository.save(campanha);
     }
 
-    public void rename(Long id, String novoNome) {
+    public void pick(Long id, User user) {
+        var campanha = getCampanha(id);
+        campanha.setUser(user);
+        campanhaRepository.save(campanha);
+    }
+
+    public void rename(Long id, String novoNome, User user) {
         var campanha = getCampanha(id);
         campanha.setName(novoNome);
         campanhaRepository.save(campanha);
     }
 
-    public void incrementCampanhaQtdPlayers(Long id) {
+    public void incrementCampanhaQtdPlayers(Long id, User user) {
         var campanha = getCampanha(id);
         campanha.setQtdPlayers(campanha.getQtdPlayers() + 1);
         if(campanha.getQtdPlayers() > 10) campanha.setQtdPlayers(10);
         campanhaRepository.save(campanha);
     }
 
-    public void decrementCampanhaQtdPlayer(Long id) {
+    public void decrementCampanhaQtdPlayer(Long id, User user) {
         var campanha = getCampanha(id);
         campanha.setQtdPlayers(campanha.getQtdPlayers() - 1);
         if(campanha.getQtdPlayers() < 0) campanha.setQtdPlayers(0);

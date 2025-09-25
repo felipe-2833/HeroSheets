@@ -29,23 +29,27 @@ public class CampanhaController {
     private final UserService userService;
 
     @GetMapping
-    public String index(Model model){
+    public String index(Model model,@AuthenticationPrincipal OAuth2User user){
         var campanhas = campanhaService.getAllCampanhas();
         model.addAttribute("campanhas", campanhas);
+        model.addAttribute("user", user);
         return "index";
     }
 
     @GetMapping("/formcampanha")
-    public String form(Model model){
+    public String form(Model model, @AuthenticationPrincipal OAuth2User user){
         List<Sistema> sistemas = sistemaRepository.findAll();
         model.addAttribute("sistemas", sistemas);
         model.addAttribute("campanha", new Campanha());
+        model.addAttribute("userr", user);
         return "form-campanha";
     }
 
     @PostMapping("/formcampanha")
-    public String create(Campanha campanha, BindingResult result, RedirectAttributes redirect  ){
+    public String create(Campanha campanha, BindingResult result, RedirectAttributes redirect, @AuthenticationPrincipal OAuth2User principal){
         if(result.hasErrors()) return "form-campanha";
+        var user = userService.register(principal);
+        campanha.setUser(user);
         campanhaService.save(campanha);
         redirect.addFlashAttribute("message", messageHelper.get("campanha.create.success"));
         return "redirect:/campanha"; //301
@@ -58,27 +62,33 @@ public class CampanhaController {
         return "redirect:/campanha";
     }
 
+    @PutMapping("/pick/{id}")
+    public String pick(@PathVariable Long id, @AuthenticationPrincipal OAuth2User principal){
+        campanhaService.pick(id, userService.register(principal));
+        return "redirect:/campanha";
+    }
+
     @PutMapping("/rename/{id}")
-    public String rename(@PathVariable Long id, @RequestParam String novoNome) {
-        campanhaService.rename(id, novoNome);
+    public String rename(@PathVariable Long id, @RequestParam String novoNome, @AuthenticationPrincipal OAuth2User principal) {
+        campanhaService.rename(id, novoNome, userService.register(principal));
         return "redirect:/campanha";
     }
 
     @PutMapping("/drop/{id}")
-    public String drop(@PathVariable Long id){
-        campanhaService.drop(id);
+    public String drop(@PathVariable Long id, @AuthenticationPrincipal OAuth2User principal){
+        campanhaService.drop(id, userService.register(principal));
         return "redirect:/campanha";
     }
 
     @PutMapping("/inc/{id}")
-    public String increment(@PathVariable Long id){
-        campanhaService.incrementCampanhaQtdPlayers(id);
+    public String increment(@PathVariable Long id, @AuthenticationPrincipal OAuth2User principal){
+        campanhaService.incrementCampanhaQtdPlayers(id, userService.register(principal));
         return "redirect:/campanha";
     }
 
     @PutMapping("/dec/{id}")
-    public String decrement(@PathVariable Long id){
-        campanhaService.decrementCampanhaQtdPlayer(id);
+    public String decrement(@PathVariable Long id, @AuthenticationPrincipal OAuth2User principal){
+        campanhaService.decrementCampanhaQtdPlayer(id, userService.register(principal));
         return "redirect:/campanha";
     }
 }

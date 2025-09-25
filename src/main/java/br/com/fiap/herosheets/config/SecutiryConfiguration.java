@@ -9,14 +9,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecutiryConfiguration {
 
-//    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authorizeHttpRequests( auth -> auth
-//                        .anyRequest().authenticated()
-//                )
-//                .oauth2Login(login -> login.defaultSuccessUrl("/campanha"))
-//                .build();
-//    }
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests( auth -> auth
+                        .anyRequest().authenticated()
+                )
+                .oauth2Login(login -> login.defaultSuccessUrl("/campanha"))
+                .build();
+    }
 
 }

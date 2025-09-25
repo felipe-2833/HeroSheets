@@ -22,9 +22,9 @@ public class User {
 
     private String avatarUrl;
 
-    public User(OAuth2User principal) {
+    public User(OAuth2User principal, String email) {
         this.name = principal.getAttributes().get("name").toString();
-        this.email = principal.getAttributes().get("email").toString();
+        this.email = email;
         this.avatarUrl = principal.getAttributes().get("avatar_url").toString();
     }
 

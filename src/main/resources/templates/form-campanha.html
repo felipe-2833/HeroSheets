@@ -58,6 +58,8 @@
             </select>
         </fieldset>
 
+        <input type="hidden" th:field="*{user}" th:value="${userr}"/>
+
         <div class="space-x-4">
             <a href="/campanha" class="btn btn-neutral"  th:text="#{cancel}"></a>
             <button class="btn btn-primary"  th:text="#{save}"></button>

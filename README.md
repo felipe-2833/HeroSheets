@@ -40,4 +40,4 @@ Canto superior direito -> botão de DataBase -> cline no + -> datasource -> sele
    
 5. De o segundo run apos terminar para rodas a aplicação
 
-6. Tela se login -> Criar variaveis de ambiente GITHUB_ID = Ov23liLH4LdrY6tkdAFE e GITHUB_SECRET = 8d6892a07c62241685a159bc49ecf79a0c130638 
+6. Tela se login -> http://localhost:8080/login -> Criar variaveis de ambiente GITHUB_ID = Ov23liLH4LdrY6tkdAFE e GITHUB_SECRET = 8d6892a07c62241685a159bc49ecf79a0c130638 
